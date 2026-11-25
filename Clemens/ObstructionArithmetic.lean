@@ -6,15 +6,14 @@ Authors: Benjamin Stanley Frohman
 
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
 
 /-!
-# Numerical obstruction arithmetic for the Clemens frontier
+# Universal normal-bundle identity for rational curves on a quintic threefold
 
-Records the Riemann–Roch identity for rank-2 bundles on ℙ¹ with degree -2
-and the expected dimension of the locus of (1, d-1)-curves on quadrics.
-These are combinatorial facts. They do not prove vanishing of H¹(N_f)
-for any degree ≥ 12.
+Records the Euler-characteristic computation for a rank-2 bundle of degree -2
+on ℙ¹ and the characterization of unobstructedness by the balanced splitting.
+These are cohomological facts about the normal bundle. They do not prove
+vanishing of H¹(N_f) for any degree ≥ 12.
 -/
 
 namespace ClemensObstruction
@@ -48,12 +47,14 @@ theorem Rank2BundleP1.riemann_roch (E : Rank2BundleP1) :
   have hb := line_riemann_roch E.b
   linarith
 
+/-- For any rank-2 bundle of degree -2 one has χ = 0, hence h⁰ = h¹. -/
 theorem normal_bundle_h0_eq_h1 (N : Rank2BundleP1) (hdeg : N.deg = -2) :
     N.chi = 0 ∧ N.h0 = N.h1 := by
   have hrr := N.riemann_roch
   unfold Rank2BundleP1.chi at hrr
   refine ⟨by linarith, by linarith⟩
 
+/-- Unobstructedness holds if and only if the bundle is the balanced splitting. -/
 theorem normal_bundle_unobstructed_iff_balanced (N : Rank2BundleP1) (hdeg : N.deg = -2) :
     N.h1 = 0 ↔ N.a = -1 ∧ N.b = -1 := by
   unfold Rank2BundleP1.deg at hdeg
@@ -71,6 +72,7 @@ theorem normal_bundle_unobstructed_iff_balanced (N : Rank2BundleP1) (hdeg : N.de
     rw [ha, hb]
     norm_num
 
+/-- Any unbalanced splitting produces a positive-dimensional obstruction space. -/
 theorem normal_bundle_obstructed_of_unbalanced (N : Rank2BundleP1) (hdeg : N.deg = -2)
     (hunbal : 0 ≤ N.a ∨ 0 ≤ N.b) :
     1 ≤ N.h0 ∧ 1 ≤ N.h1 := by
@@ -83,31 +85,5 @@ theorem normal_bundle_obstructed_of_unbalanced (N : Rank2BundleP1) (hdeg : N.deg
     linarith [le_max_left (0 : ℤ) (-N.a - 1), le_max_left (0 : ℤ) (-N.b - 1)]
   have heq : N.h0 = N.h1 := (normal_bundle_h0_eq_h1 N hdeg).2
   constructor <;> linarith
-
-def quadricCurveDegree (d : ℕ) : ℕ := 1 + (d - 1)
-def quadricCurveGenus (d : ℕ) : ℕ := (1 - 1) * ((d - 1) - 1)
-def quadricLocusDim (d : ℕ) : ℕ := 4 + 9 + (2 * d - 1)
-def quinticIncidenceConditions (d : ℕ) : ℕ := 5 * d + 1
-def quadricExpectedCodim (d : ℕ) : ℕ :=
-  quinticIncidenceConditions d - quadricLocusDim d
-def degNormalInQuadric (d : ℕ) : ℕ := 2 * d - 2
-def degAmbientQuinticNormal (d : ℕ) : ℕ := 5 * d
-
-theorem quadric_parameter_formulas (d : ℕ) (hd : 4 ≤ d) :
-    quadricCurveDegree d = d ∧
-    quadricCurveGenus d = 0 ∧
-    quadricLocusDim d = 2 * d + 12 ∧
-    quadricExpectedCodim d = 3 * d - 11 := by
-  unfold quadricCurveDegree quadricCurveGenus quadricLocusDim
-    quinticIncidenceConditions quadricExpectedCodim
-  omega
-
-theorem d12_quadric_obstruction_numbers :
-    quadricLocusDim 12 = 36 ∧
-    quinticIncidenceConditions 12 = 61 ∧
-    quadricExpectedCodim 12 = 25 ∧
-    degNormalInQuadric 12 = 22 ∧
-    degAmbientQuinticNormal 12 = 60 := by
-  decide
 
 end ClemensObstruction
