@@ -1,0 +1,6 @@
+name = "CLEMENS"
+version = "0.1.0"
+defaultTargets = ["CLEMENS"]
+
+[[lean_lib]]
+name = "Clemens"
