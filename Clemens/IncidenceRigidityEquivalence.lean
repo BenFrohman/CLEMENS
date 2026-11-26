@@ -11,11 +11,7 @@ import Mathlib.Tactic.Omega
 namespace ClemensConjecture
 
 /-!
-### 1. Exact Ambient & Moduli Dimension Arithmetic
-- dim ℙH⁰(ℙ⁴, 𝑎(5)) = C(5 + 4, 4) - 1 = 126 - 1 = 125
-- expDim M̄_{0,0}^{bir}(ℙ⁴, d) = (5d + 4) + 3 - 6 = 5d + 1
-- h⁰(ℙ¹, 𝑎(5d)) = 5d + 1 (since 5d ≥ 0, h¹(ℙ¹, 𝑎(5d)) = 0 unconditionally)
-- Expected incidence dimension: (5d + 1) + 125 - (5d + 1) = 125
+### Proved Dimensional Arithmetic
 -/
 
 def ambientQuinticSpaceDim : ℕ := Nat.choose (5 + 4) 4 - 1
@@ -37,7 +33,7 @@ theorem expected_incidence_dim_eq_125 (d : ℕ) (hd : 1 ≤ d) :
   omega
 
 /-!
-### 2. Rank-2 Normal Bundle Cohomology & Grothendieck Splitting on ℙ¹
+### Rank-2 Normal Bundle and Grothendieck Splitting
 -/
 
 def h0Line (n : ℤ) : ℤ := max 0 (n + 1)
@@ -92,10 +88,6 @@ theorem normal_bundle_h1_eq_zero_iff_balanced (N : Rank2BundleP1) (hdeg : N.deg 
     rw [ha, hb]
     norm_num
 
-/-!
-### 3. Internal Tangent-Space / Generic-Smoothness Equivalence
--/
-
 structure DominatingIncidenceComponent where
   deg : ℕ
   incidenceDim : ℤ
@@ -130,18 +122,13 @@ structure QuinticThreefoldClemensData where
   cotterill_le_11 : ∀ d, 1 ≤ d → d ≤ 11 → ClemensAt d
   ballico_fontanari_12 : SmoothClemensAt 12
 
-def BirationalTailHypothesis (Q : QuinticThreefoldClemensData) : Prop :=
+def BirationalTailCondition (Q : QuinticThreefoldClemensData) : Prop :=
   Q.SingularClemensAt 12 ∧ (∀ d, 13 ≤ d → Q.ClemensAt d)
 
-theorem clemens_full_boundary_theorem (Q : QuinticThreefoldClemensData) :
-    ((∀ d, 1 ≤ d → Q.ClemensAt d) ↔ BirationalTailHypothesis Q) ∧
-    (∀ I : DominatingIncidenceComponent,
-      (I.fiberDim = 0 ↔ I.incidenceDim = 125) ∧
-      (I.fiberDim = 0 ↔ I.normalBundle.h0 = 0) ∧
-      (I.normalBundle.h0 = 0 ↔ I.normalBundle.h1 = 0) ∧
-      (I.normalBundle.h1 = 0 ↔ I.normalBundle.a = -1 ∧ I.normalBundle.b = -1)) := by
-  refine ⟨?_, generic_smoothness_rigidity_equivalence⟩
-  unfold BirationalTailHypothesis
+/-- Proved equivalence. BirationalTailCondition remains open. -/
+theorem frohman_clemens_equivalence (Q : QuinticThreefoldClemensData) :
+    (∀ d, 1 ≤ d → Q.ClemensAt d) ↔ BirationalTailCondition Q := by
+  unfold BirationalTailCondition
   constructor
   · intro hall
     refine ⟨?_, fun d hd => hall d (by omega)⟩
