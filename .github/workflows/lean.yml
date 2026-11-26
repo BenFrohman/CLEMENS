@@ -1,0 +1,23 @@
+name: Lean CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          lean-version: 'v4.22.0'
+      - name: Lake build
+        run: lake build
+      - name: Print axioms
+        run: |
+          lake env lean --run << 'EOF'
+          #print axioms ClemensConjecture.clemens_full_boundary_theorem
+          EOF
