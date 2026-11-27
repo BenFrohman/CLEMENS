@@ -4,11 +4,15 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Benjamin Stanley Frohman
 -/
 
-/-!
-# Conditional reduction for the Clemens conjecture
+import Mathlib.Tactic.Omega
 
-Records the known range and isolates the open birational tail.
-Does not prove the conjecture.
+/-!
+# Sharpened conditional reduction for the Clemens conjecture
+
+Records Cotterill (strong form for 1 ≤ d ≤ 11) and Ballico–Fontanari
+(smooth curves of degree 12). Isolates the remaining open obligations as
+SingularClemensAt 12 and the tail d ≥ 13.
+Does not prove either open obligation.
 -/
 
 namespace ClemensConjecture

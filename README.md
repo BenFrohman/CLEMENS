@@ -11,7 +11,7 @@ Copyright (c) 2026 Benjamin Stanley Frohman. Licensed under the Apache License, 
 
 ## Scope
 
-The Clemens conjecture asserts that, on a general quintic threefold \(X\subset\mathbb{P}^4\), the Kontsevich moduli space \(\overline{\mathcal{M}}_{0,0}(X,d)\) (or the Hilbert scheme of curves of degree \(d\)) has no positive-dimensional component whose general point parametrizes a birational map from \(\mathbb{P}^1\).
+The Clemens conjecture asserts that, on a general quintic threefold \(X\subset\mathbb{P}^4\), the Kontsevich moduli space \(\overline{\mathcal{M}}_{0,0}(X,d)\) has no positive-dimensional component whose general point parametrizes a birational map from \(\mathbb{P}^1\).
 
 This repository records:
 
