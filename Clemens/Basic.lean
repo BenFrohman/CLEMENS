@@ -17,6 +17,7 @@ Does not prove either open obligation.
 
 namespace ClemensConjecture
 
+/-- Propositional interface recording the known finiteness results. -/
 structure QuinticThreefoldClemensData where
   ClemensAt : ℕ → Prop
   SmoothClemensAt : ℕ → Prop
@@ -26,6 +27,8 @@ structure QuinticThreefoldClemensData where
   cotterill_le_11 : ∀ d, 1 ≤ d → d ≤ 11 → ClemensAt d
   ballico_fontanari_12 : SmoothClemensAt 12
 
+/-- The full conjecture is equivalent to the singular degree-12 case
+    together with the tail d ≥ 13. -/
 theorem clemens_iff_singular12_and_ge13 (Q : QuinticThreefoldClemensData) :
     (∀ d, 1 ≤ d → Q.ClemensAt d) ↔
       Q.SingularClemensAt 12 ∧ (∀ d, 13 ≤ d → Q.ClemensAt d) := by
